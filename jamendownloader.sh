@@ -17,7 +17,7 @@ metadata="`wget -O - -q "https://api.jamendo.com/v3.0/albums/musicinfo?client_id
 
 artist_name="`echo "$metadata"|grep artist_name|sed 's/\s*\"artist_name\":\"//'|sed 's/\",//'`"
 album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'`"
-album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
+album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
 date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
 #DEBUG echo "albumid «$albumid»"
