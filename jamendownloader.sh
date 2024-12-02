@@ -17,8 +17,7 @@ metadata="`wget -O - -q "https://api.jamendo.com/v3.0/albums/musicinfo?client_id
 
 artist_name="`echo "$metadata"|grep artist_name|sed 's/\s*\"artist_name\":\"//'|sed 's/\",//'`"
 album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'`"
-album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\'`"
-album_art_hq="`echo "$album_art" | awk '{ print substr( $0, 1, length($0)-3 ) }'`"600
+album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
 date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
 #echo "albumid «$albumid»" #debug
@@ -27,7 +26,7 @@ date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed
 targetdir="./$artist_name/$album_name"
 mkdir -p "$targetdir"
 
-wget -c -O "$targetdir/cover.jpg" "$album_art_hq"
+wget -c -O "$targetdir/cover.jpg" "$album_art"
 
 tracksid=`wget -O - -q "https://api.jamendo.com/v3.0/tracks/?client_id=$clientid&format=jsonpretty&album_id=$albumid&audiodlformat=flac&limit=all" | grep '"id"' | sed 's/\s*\"id\":\"//'|sed 's/\",//' `
 
