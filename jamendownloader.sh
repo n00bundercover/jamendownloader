@@ -16,13 +16,13 @@ albumid="`echo "$inurl" | sed -e 's/.*\/album\/\([0-9]\+\).*/\1/'`"
 metadata="`wget -O - -q "https://api.jamendo.com/v3.0/albums/musicinfo?client_id=$clientid&format=jsonpretty&id=$albumid"`"
 
 artist_name="`echo "$metadata"|grep artist_name|sed 's/\s*\"artist_name\":\"//'|sed 's/\",//'`"
-album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'`"
+album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'|sed 's/\\\\\//\//g'`"
 album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
 date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
 echo -e "\n\n\nArtist:	$artist_name\nAlbum:	$album_name\n\n\n\nStarting Download...\n"
 
-targetdir="./$artist_name/$album_name"
+targetdir="./$artist_name/`echo $album_name|sed 's/\//-/'`"
 mkdir -p "$targetdir"
 
 wget -c -q --show-progress -O "$targetdir/cover.jpg" "$album_art"
