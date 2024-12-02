@@ -20,8 +20,8 @@ album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",/
 album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
 date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
-#echo "albumid «$albumid»" #debug
-#echo "artist_name «$artist_name» «$album_name»" #debug
+#DEBUG echo "albumid «$albumid»"
+#DEBUG echo "artist_name «$artist_name» «$album_name»"
 
 targetdir="./$artist_name/$album_name"
 mkdir -p "$targetdir"
@@ -32,10 +32,9 @@ tracksid=`wget -O - -q "https://api.jamendo.com/v3.0/tracks/?client_id=$clientid
 
 for track_id in  $tracksid; do 
     track_info=`wget -O - -q "https://api.jamendo.com/v3.0/tracks/?client_id=$clientid&format=jsonpretty&id=$track_id&audiodlformat=flac"`
-    echo $track_info
+    #DEBUG echo $track_info
     track_name="`echo "$track_info"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'`"
-    track_url="`echo "$track_info"|grep '"audiodownload"'|sed 's/\s*\"audiodownload\":\"//'|sed 's/\",//'| tr -d '\\'`"
-
+    track_url="`echo "$track_info"|grep '"audiodownload"'|sed 's/\s*\"audiodownload\":\"//'|sed 's/\",//'| tr -d '\\\'`"
     trackn="`echo "$track_info"|grep '"position"'|sed 's/\s*\"position\"://'|sed 's/,//'`"
     tracknp=$trackn
     if [ $trackn -lt 10 ]; then
