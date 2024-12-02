@@ -20,13 +20,12 @@ album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",/
 album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
 date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
-#DEBUG echo "albumid «$albumid»"
-#DEBUG echo "artist_name «$artist_name» «$album_name»"
+echo -e "\n\n\nArtist:	$artist_name\nAlbum:	$album_name\n\n\nStarting Download...\n\n"
 
 targetdir="./$artist_name/$album_name"
 mkdir -p "$targetdir"
 
-wget -c -O "$targetdir/cover.jpg" "$album_art"
+wget -c -q --show-progress -O "$targetdir/cover.jpg" "$album_art"
 
 tracksid=`wget -O - -q "https://api.jamendo.com/v3.0/tracks/?client_id=$clientid&format=jsonpretty&album_id=$albumid&audiodlformat=flac&limit=all" | grep '"id"' | sed 's/\s*\"id\":\"//'|sed 's/\",//' `
 
@@ -45,7 +44,7 @@ for track_id in  $tracksid; do
     
     echo "$trackfile" "$track_url"
     
-    wget -c -O "$trackfile" "$track_url"
+    wget -c -q --show-progress -O "$trackfile" "$track_url"
 
     # set metadata
 
@@ -59,5 +58,6 @@ for track_id in  $tracksid; do
              "$trackfile"
 
 done
+echo -e "\n\nDownload commpleted.\n\n\n"
 exit
 
