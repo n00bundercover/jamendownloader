@@ -1,5 +1,5 @@
 # Jamendownloader
-Download FLAC tracks from Jamendo
+Download albums from Jamendo in FLAC.
 
 Forked from oxayotl, increased resolution of album covers from 300x300 to 600x600, nothing else changed.
 
