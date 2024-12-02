@@ -20,7 +20,7 @@ album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",/
 album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\\'|sed 's/.\{3\}$//'| sed 's/$/600/'`"
 date="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
-echo -e "\n\n\nArtist:	$artist_name\nAlbum:	$album_name\n\n\nStarting Download...\n\n"
+echo -e "\n\n\nArtist:	$artist_name\nAlbum:	$album_name\n\n\n\nStarting Download...\n"
 
 targetdir="./$artist_name/$album_name"
 mkdir -p "$targetdir"
@@ -58,6 +58,6 @@ for track_id in  $tracksid; do
              "$trackfile"
 
 done
-echo -e "\n\nDownload commpleted.\n\n\n"
+echo -e "\nDownload commpleted.\n\n\n"
 exit
 
