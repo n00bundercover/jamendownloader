@@ -19,6 +19,7 @@ artist_name="`echo "$metadata"|grep artist_name|sed 's/\s*\"artist_name\":\"//'|
 album_name="`echo "$metadata"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'`"
 album_art="`echo "$metadata"|grep '"image"'|sed 's/\s*\"image\":\"//'|sed 's/\",//'| tr -d '\\'`"
 album_art_hq="`echo "$album_art" | awk '{ print substr( $0, 1, length($0)-3 ) }'`"600
+year="`echo "$metadata"|grep '"releasedate"'|sed 's/\s*\"releasedate\":\"//'|sed 's/\",//'|sed 's/.\{6\}$//'`"
 
 #echo "albumid «$albumid»" #debug
 #echo "artist_name «$artist_name» «$album_name»" #debug
@@ -53,6 +54,7 @@ for track_id in  $tracksid; do
              --remove-tag="ARTIST" --set-tag="ARTIST=$artist_name"\
              --remove-tag="ALBUM" --set-tag="ALBUM=$album_name"\
              --remove-tag="TRACKNUMBER" --set-tag="TRACKNUMBER=$trackn"\
+             --remove-tag="YEAR" --set-tag="YEAR=$year"\
              "$trackfile"
 
 done
