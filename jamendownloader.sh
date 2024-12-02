@@ -31,7 +31,6 @@ tracksid=`wget -O - -q "https://api.jamendo.com/v3.0/tracks/?client_id=$clientid
 
 for track_id in  $tracksid; do 
     track_info=`wget -O - -q "https://api.jamendo.com/v3.0/tracks/?client_id=$clientid&format=jsonpretty&id=$track_id&audiodlformat=flac"`
-    #DEBUG echo $track_info
     track_name="`echo "$track_info"|grep '"name"'|sed 's/\s*\"name\":\"//'|sed 's/\",//'`"
     track_url="`echo "$track_info"|grep '"audiodownload"'|sed 's/\s*\"audiodownload\":\"//'|sed 's/\",//'| tr -d '\\\'`"
     trackn="`echo "$track_info"|grep '"position"'|sed 's/\s*\"position\"://'|sed 's/,//'`"
@@ -41,8 +40,6 @@ for track_id in  $tracksid; do
     fi
 
     trackfile="$targetdir/${tracknp} - $track_name.flac"
-    
-    echo "$trackfile" "$track_url"
     
     wget -c -q --show-progress -O "$trackfile" "$track_url"
 
