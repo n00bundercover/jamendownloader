@@ -2,8 +2,8 @@
 
 # Download Jamendo album (single tracks not supported yet) in FLAC format (YA RLY!)
 
-clientid="PUT_YOUR_CLIENT_ID_HERE"
-#Get your client id from https://devportal.jamendo.com/
+clientid="175ceb10"
+# Default client ID. If you experience problems: Get your own Client ID from https://devportal.jamendo.com/
 
 if [ -z "$1" ]; then echo "Usage : \"$0 url\" where url is the url of the album you want to download"; exit ;fi
 
